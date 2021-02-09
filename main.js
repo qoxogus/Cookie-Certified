@@ -11,7 +11,7 @@ var app = http.createServer(function(request,response){
     var queryData = url.parse(_url, true).query;
     var pathname = url.parse(_url, true).pathname;
     if(pathname === '/'){
-      if(queryData.id === undefined){
+      if(queryData.id === undefined){ //home을 만드는 코드
         fs.readdir('./data', function(error, filelist){
           var title = 'Welcome';
           var description = 'Hello, Node.js';
@@ -134,6 +134,42 @@ var app = http.createServer(function(request,response){
             response.writeHead(302, {Location: `/`});
             response.end();
           })
+      });
+    } else if (pathname ==='/login'){
+      fs.readdir('./data', function(error, filelist){
+        var title = 'Login';
+        var list = template.list(filelist);
+        var html = template.HTML(title, list,
+          `
+          <form action="login_process" method="post">
+            <p><input type="text" name="email" placeholder="email"></p>
+            <p><input type="password" name="password" placeholder="password"></p>
+            <p><input type="submit"></p>
+          </form>
+          `,
+          `<a href="/create">create</a>`
+        );
+        response.writeHead(200);
+        response.end(html);
+      });
+    } else if(pathname === '/login_process'){
+      var body = '';
+      request.on('data', function(data){
+          body = body + data;
+      });
+      request.on('end', function(){
+          var post = qs.parse(body);
+          if(post.email === 'qoxogus0809@gmail.com' && post.password === '111111') {
+            response.writeHead(302, {
+              'Set-Cookie':[
+                `email=${post.email}`,
+                `password=${post.password}`,
+                `nickname=baetaehyeon`
+              ],
+              Location: `/`
+            });
+          }
+          response.end();
       });
     } else {
       response.writeHead(404);

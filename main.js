@@ -1,3 +1,5 @@
+// 이것은 매우 위험한 코드입니다. 실제 사용은 쿠키가 아닌 세션방법을 사용해야합니다.
+
 var http = require('http');
 var fs = require('fs');
 var url = require('url');

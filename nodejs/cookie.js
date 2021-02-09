@@ -7,7 +7,7 @@ http.createServer(function(request, response) {
     if(request.headers.cookie !== undefined) {
         cookies = cookie.parse(request.headers.cookie); //parse는 undefined를 수용하지 못하므로 쿠키가 없을때를 대비하여 if문을 짜준다.
     }
-    console.log(cookies.yummy_cookie);
+    console.log(cookies.yummy_cookie); //choco
     response.writeHead(200, {
         'Set-Cookie':[
             'yummy_cookie=choco', 

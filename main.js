@@ -7,7 +7,7 @@ var path = require('path');
 var sanitizeHtml = require('sanitize-html');
 var cookie = require('cookie');
 
-function authIsOwner(request,response) { //true & false
+function authIsOwner(request,response) { //true & false   로그인이 되어있는지 안되어있는지 확인하는 함수
   var isOwner = false;
     var cookies = {}
     if(request.headers.cookie){
@@ -19,7 +19,7 @@ function authIsOwner(request,response) { //true & false
     return isOwner;
 }
 
-function authStatusUI(request, response) {
+function authStatusUI(request, response) { //로그인이 되었다면 logout 로그인이 되지않았다면 login을 띄워주는 template코드
     var authStatusUI = '<a href="/login">login</a>'
     if(authIsOwner(request, response)) { //true & false
       authStatusUI = '<a href="/logout_process">logout</a>'
@@ -72,7 +72,7 @@ var app = http.createServer(function(request,response){
         });
       }
     } else if(pathname === '/create'){
-      if(authIsOwner(request, response) === false) {
+      if(authIsOwner(request, response) === false) { //로그인이 됬는지 안됬는지 확인하고 로그인이 되어있지 않으면 로그인이 필요하다고 알려주는 코드
         response.end('Login required!!');
         return false;
       }

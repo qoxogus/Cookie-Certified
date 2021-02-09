@@ -196,6 +196,23 @@ var app = http.createServer(function(request,response){
           }
           response.end();
       });
+    } else if(pathname === '/logout_process') {
+      var body = '';
+      request.on('data', function(data){
+          body = body + data;
+      });
+      request.on('end', function(){
+          var post = qs.parse(body);
+          response.writeHead(302, {
+            'Set-Cookie':[
+              `email=; Max-Age=0`,
+              `password=; Max-Age=0`,
+              `nickname=; Max-Age=0`
+            ],
+            Location: `/`
+          });
+          response.end();
+      });
     } else {
       response.writeHead(404);
       response.end('Not found');
